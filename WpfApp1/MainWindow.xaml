@@ -13,6 +13,6 @@
         <Button x:Name="downloadingButton"  Content="Скачать в Базу данных" HorizontalAlignment="Left" Margin="371,224,0,0" VerticalAlignment="Top" Width="143" Height="23" Click="DownloadToDatabaseClick"/>
         <TextBox x:Name="nameTextBox" HorizontalAlignment="Left" Height="23" Margin="371,73,0,0" TextWrapping="Wrap" Text="Введите имя" VerticalAlignment="Top" Width="120" Foreground="#FF7E7E7E"/>
         <TextBox x:Name="ageTextBox" HorizontalAlignment="Left" Height="23" Margin="371,126,0,0" TextWrapping="Wrap" Text="Введите пароль" VerticalAlignment="Top" Width="120" Foreground="#FF7E7E7E" />
-
+        <Label x:Name="label" Content="" HorizontalAlignment="Left" Margin="10,299,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

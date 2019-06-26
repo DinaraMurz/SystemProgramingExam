@@ -21,6 +21,7 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        public int count = 0;
         static public int number = 999999;
         public int[] numbers = new int[number];
         public MainWindow()
@@ -36,10 +37,12 @@ namespace WpfApp1
                 Mass mass = new Mass()
                 {
                     Numbers = numbers,
-                    N = n
+                    N = n,
+                    counter = count
                 };
 
                 ThreadPool.QueueUserWorkItem(AddToMass, mass);
+                count++;
             }
             catch (FormatException)
             {
@@ -50,27 +53,43 @@ namespace WpfApp1
         static public void AddToMass(object obj)
         {
             Mass mass = obj as Mass;
-            mass.Numbers[mass.Numbers.Last()] = mass.N;
+            mass.Numbers[mass.counter] = mass.N;
         }
 
-        private void DownloadToDatabaseClick(object sender, RoutedEventArgs e)
+        private async void DownloadToDatabaseClick(object sender, RoutedEventArgs e)
         {
-            ThreadPool.QueueUserWorkItem(DownloadToDatabase);
-        }
-
-        public async void DownloadToDatabase(object obj)
-        {
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 using (var context = new Context())
                 {
-                    context.Users.Add(new User()
-                    {
-                        FullName = nameTextBox.Text,
-                        Password = ageTextBox.Text
-                    });
-                    context.SaveChanges();
+                    object lockOb = new object();
+                    lock (lockOb) {
+                        context.Users.Add(new User()
+                        {
+                            FullName = nameTextBox.Text,
+                            Password = ageTextBox.Text
+                        });
+                        context.SaveChanges();
+                    }
                 }
             });
         }
+
+        //public Task DownloadToDatabase(object obj)
+        //{
+        //    return Task.Run(() =>
+        //    {
+                
+        //            using (var context = new Context())
+        //            {
+        //                context.Users.Add(new User()
+        //                {
+        //                    FullName = nameTextBox.Text,
+        //                    Password = ageTextBox.Text
+        //                });
+        //                context.SaveChanges();
+        //            }
+        //    });
+        //}
     }
 }

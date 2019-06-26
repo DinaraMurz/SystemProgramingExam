@@ -8,7 +8,8 @@ namespace WpfApp1
 {
     public class Mass
     {
-        public int[] Numbers{ get; set;}
+        public int[] Numbers { get; set; }
         public int N { get; set; }
+        public int counter { get; set; }
     }
 }
